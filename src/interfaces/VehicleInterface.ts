@@ -1,4 +1,4 @@
-import { z } from "zod";
+// import { z } from "zod";
 
 export interface Vehicle {
   model: string,
@@ -7,7 +7,6 @@ export interface Vehicle {
   status: boolean,
   buyValue: number,
 }
-
 
 // primitive values
 // z.string();
