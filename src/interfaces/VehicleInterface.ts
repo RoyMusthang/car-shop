@@ -1,30 +1,11 @@
-// import { z } from "zod";
+import { z } from 'zod';
 
-export interface Vehicle {
-  model: string,
-  year: number,
-  color: string,
-  status: boolean,
-  buyValue: number,
-}
+export const schemaVehicle = z.object({
+  model: z.string().min(3),
+  year: z.number().min(1990).max(2022),
+  color: z.string().min(3),
+  status: z.boolean().optional(),
+  buyValue: z.number().int(),
+});
 
-// primitive values
-// z.string();
-// z.number();
-// z.bigint();
-// z.boolean();
-// z.date();
-
-// empty types
-// z.undefined();
-// z.null();
-// z.void(); // accepts undefined
-
-// catch-all types
-// allows any value
-// z.any();
-// z.unknown();
-
-// never type
-// allows no values
-// z.never();
+export type Vehicle = z.infer<typeof schemaVehicle>;
