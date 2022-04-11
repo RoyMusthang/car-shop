@@ -13,7 +13,7 @@ class App {
     connectToDatabase();
     this.app.listen(
       PORT,
-      () => console.log(`Server running here 👉 http://localhost:${PORT}`),
+      () => console.log(`Server running http://localhost:${PORT}`),
     );
   }
 
