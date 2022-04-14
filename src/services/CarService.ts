@@ -1,11 +1,18 @@
-import { Car } from '../interfaces/CarInterface';
-import CarModel from '../model/Car';
+import { Car, CarSchema } from '../interfaces/CarInterface';
+import Service, { ServiceError } from '.';
+import CarModel from '../model/CarModel';
 
-class CarService {
-  private CarModel = new CarModel();
+class CarService extends Service<Car> {
+  constructor(model = new CarModel()) {
+    super(model);
+  }
 
-  public async create(obj: Car): Promise<Car | null> {
-    return this.CarModel.create(obj);
+  async create(obj: Car): Promise<Car | ServiceError | null> {
+    const parsed = CarSchema.safeParse(obj);
+    if (!parsed.success) {
+      return { error: parsed.error };
+    }
+    return this.model.create(obj);
   };
 }
 
