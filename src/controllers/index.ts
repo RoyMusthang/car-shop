@@ -54,5 +54,20 @@ abstract class Controller<T> {
     }
   }
 
+  public async update(
+    req: RequestWithBody<T>,
+    res: Response<T | ResponseError>,
+  ): Promise<typeof res> {
+    try {
+      const { id } = req.params;
+      const { body } = req;
+      const obj = await this.service.update(id, body);
+      if (!obj) return res.status(404).json({ error: this.errors.internal });
+      return res.status(201).json(obj);
+    } catch (err) {
+      return res.status(500).json({ error: this.errors.internal })
+    }
+  }
+
 }
 export default Controller;
