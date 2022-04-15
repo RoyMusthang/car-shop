@@ -15,13 +15,13 @@ abstract class Service<T> {
     return this.model.read();
   }
 
-  // public async readOne(id: string): Promise<T | null | ServiceError> {
-  //   return this.model.readOne(id);
-  // }
+  public async readOne(id: string): Promise<T | null | ServiceError> {
+    return this.model.readOne(id);
+  }
 
-  // public async delete(id: string): Promise<T | unknown | ServiceError> {
-  //   return this.model.delete(id);
-  // }
+  public async delete(id: string): Promise<T | unknown | ServiceError> {
+    return this.model.delete(id);
+  }
 }
 
 export default Service;
