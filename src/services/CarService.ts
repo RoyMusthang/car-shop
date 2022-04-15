@@ -13,7 +13,7 @@ class CarService extends Service<Car> {
       return { error: parsed.error };
     }
     return this.model.create(obj);
-  };
+  }
 }
 
 export default CarService;
