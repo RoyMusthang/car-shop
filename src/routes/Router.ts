@@ -14,6 +14,9 @@ class CustomRouter<T> {
   ) {
     this.router.post(route, controller.create);
     this.router.get(route, controller.read);
+    this.router.get(route, controller.readOne);
+    this.router.put(route, controller.update);
+    this.router.delete(route, controller.delete);
   }
 }
 
