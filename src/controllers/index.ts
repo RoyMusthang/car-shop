@@ -28,7 +28,7 @@ abstract class Controller<T> {
     res: Response<T | ResponseError>,
   ): Promise<typeof res>;
 
-  public async read(
+  async read(
     _req: Request,
     res: Response<T[] | ResponseError>,
   ): Promise<typeof res> {
@@ -37,47 +37,6 @@ abstract class Controller<T> {
       return res.json(objs);
     } catch (err) {
       return res.status(500).json({ error: this.errors.internal });
-    }
-  }
-
-  public async readOne(
-    req: RequestWithBody<T>,
-    res: Response<T | ResponseError>,
-  ): Promise<typeof res> {
-    try {
-      const { id } = req.params;
-      const obj = await this.service.readOne(id);
-      if (!obj) return res.status(404).json({ error: this.errors.internal });
-      return res.status(200).json(obj);
-    } catch (err) {
-      return res.status(500).json({ error: this.errors.internal });
-    }
-  }
-
-  public async update(
-    req: RequestWithBody<T>,
-    res: Response<T | ResponseError>,
-  ): Promise<typeof res> {
-    try {
-      const { id } = req.params;
-      const { body } = req;
-      const obj = await this.service.update(id, body);
-      if (!obj) return res.status(404).json({ error: this.errors.internal });
-      return res.status(201).json(obj);
-    } catch (err) {
-      return res.status(500).json({ error: this.errors.internal })
-    }
-  }
-  public async delete(
-    req: Request,
-    res: Response<T | ResponseError>,
-  ): Promise<typeof res> {
-    try {
-      const { id } = req.params;
-      await this.service.delete(id);
-      return res.status(204);
-    } catch (err) {
-      return res.status(500).json({ error: this.errors.internal })
     }
   }
 

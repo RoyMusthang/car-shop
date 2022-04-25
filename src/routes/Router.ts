@@ -13,10 +13,7 @@ class CustomRouter<T> {
     route: string = controller.route,
   ) {
     this.router.post(route, controller.create);
-    this.router.get(route, controller.readOne);
     this.router.get(route, controller.read);
-    this.router.put(route, controller.update);
-    this.router.delete(route, controller.delete);
   }
 }
 
