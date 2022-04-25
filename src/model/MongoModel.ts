@@ -11,7 +11,6 @@ abstract class MongoModel<T> implements Model<T> {
   public async read(): Promise<T[]> {
     return this.model.find();
   }
-
 }
 
 export default MongoModel;

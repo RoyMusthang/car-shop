@@ -39,6 +39,5 @@ abstract class Controller<T> {
       return res.status(500).json({ error: this.errors.internal });
     }
   }
-
 }
 export default Controller;
