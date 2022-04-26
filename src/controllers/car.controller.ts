@@ -1,6 +1,6 @@
 import { Response } from 'express';
 import Controller, { RequestWithBody, ResponseError } from '.';
-import CarService from '../services/CarService';
+import CarService from '../services/car.service';
 import { Car } from '../interfaces/CarInterface';
 
 class CarController extends Controller<Car> {

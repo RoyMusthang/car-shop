@@ -1,55 +1,50 @@
 import { expect } from 'chai';
-import mongoose from 'mongoose';
-import connectToDatabase from '../../../connection';
-import { Car } from '../../../interfaces/CarInterface';
-import CarModel from '../../../model/CarModel';
-import { CarWithId } from '../../interfacce';
+import Sinon from 'sinon';
+import CarModel from '../../../models/CarModels';
 
-const newCar: Car = {
-  status: true,
-  model: 'Gol',
-  year: 2009,
-  color: 'black',
-  buyValue: 27000,
-  doorsQty: 5,
-  seatsQty: 5,
-};
+describe ('Car model', () => {
+  let carModel = new CarModel()
+  let car = {
+    _id: "4edd40c86762e0fb12000003",
+   model: "Ferrari Maranello",
+   year: 1963,
+   color: "red",
+   buyValue: 3500000,
+   seatsQty: 2,
+   doorsQty: 2
+  }
 
-const newUpdate: Car = {
-  status: false,
-  model: 'Golf',
-  year: 2022,
-  color: 'black',
-  buyValue: 100000,
-  doorsQty: 3,
-  seatsQty: 5,
-};
-
-describe('Testing the ModelCar class', () => {
-
-  before(async function() {
-    await connectToDatabase();
-  });
-
-  after(async function() {
-    await mongoose.connection.dropDatabase();
-    await mongoose.connection.close();
-  });
-
-  it('Test if create method returns a new Document', async function() {
-
-    const car = new CarModel();
-    const newCarDocument = await car.create(newCar);
-
-    expect(newCarDocument).to.include(newCar);
-  });
-
-  it('Test if read method returns a all document', async function() {
-
-    const car = new CarModel();
-    await car.create(newCar);
-    const newCarDocument = await car.read()
-
-    expect(newCarDocument).to.length(2)
-  });
-});
+  describe('test create', () => {
+    before(() => {
+      Sinon.stub(carModel.model, 'create').resolves(car)
+    })
+    after(() => {
+      Sinon.restore()
+    })
+    it('Return the car object', async() => {
+      let carModel = new CarModel()
+      const carCreated = await carModel.create(car)
+      expect(carCreated).to.be.equal(car)
+    })
+  })
+  describe ('Car model/read', () => {
+    before(() => {
+      Sinon.stub(carModel.model, 'find').resolves([car] as never)
+    })
+    after(() => {
+      Sinon.restore()
+    })
+    it('Return the car object', async() => {
+      // let carModel = new CarModel()
+      const carRead = await carModel.read()
+      expect(carRead).to.be.an('array')
+    })
+    it('todos os itens do array têm o tipo "objeto"', async () => {
+      // let carModel = new CarModel()
+      const result = await carModel.read();
+      result.map((item) => {
+        expect(item).to.be.an('object');
+      });
+    });
+  })
+})

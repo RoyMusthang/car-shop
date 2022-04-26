@@ -1,7 +1,7 @@
 import CustomRouter from './routes/Router';
 import App from './app';
 
-import CarController from './controllers/CarController';
+import CarController from './controllers/car.controller';
 
 import { Car } from './interfaces/CarInterface';
 

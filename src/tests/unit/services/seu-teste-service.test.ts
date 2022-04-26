@@ -1,56 +1,31 @@
 import { expect } from 'chai';
-import mongoose from 'mongoose';
-import connectToDatabase from '../../../connection';
-import { Car } from '../../../interfaces/CarInterface';
-import CarServicer from '../../../services/CarService';
-import { CarWithId } from '../../interfacce';
+import Sinon from 'sinon';
+import CarModel from '../../../models/CarModels';
+import CarService from '../../../services/car.service';
 
-const newCar: Car = {
-  status: true,
-  model: 'Gol',
-  year: 2009,
-  color: 'black',
-  buyValue: 27000,
-  doorsQty: 5,
-  seatsQty: 5,
-};
+describe ('Car service', () => {
+  let carModel = new CarModel()
+  let carService = new CarService(carModel)
+  let car = {
+    _id: "4edd40c86762e0fb12000003",
+   model: "Ferrari Maranello",
+   year: 1963,
+   color: "red",
+   buyValue: 3500000,
+   seatsQty: 2,
+   doorsQty: 2
+  }
 
-const carUpdate: Car = {
-  status: false,
-  model: 'Fusca',
-  year: 1598,
-  color: 'black',
-  buyValue: 80000,
-  doorsQty: 3,
-  seatsQty: 4,
-};
-
-
-describe('Testing the CarServicer class', () => {
-
-  before(async function() {
-    await connectToDatabase();
-  });
-
-  after(async function() {
-    await mongoose.connection.dropDatabase();
-    await mongoose.connection.close();
-  });
-
-  it('Test if create method returns a new Document', async function() {
-
-    const car = new CarServicer();
-    const newCarDocument = await car.create(newCar) as CarWithId;
-
-    expect(newCarDocument.toJSON()).to.deep.equal({ ...newCar, _id: newCarDocument._id });
-  });
-
-  it('Test if read method returns a all Document', async function() {
-
-    const car = new CarServicer();
-    const newCarDocument = await car.read();
-
-    expect(newCarDocument).to.length(1);
-  });
-
-});
+   describe('test create service', () => {
+    before(() => {
+      Sinon.stub(carModel, 'create').resolves(car)
+    })
+    after(() => {
+      Sinon.restore()
+    })
+    it('Return the car object', async() => {
+      const carCreated = await carService.create(car)
+      expect(carCreated).to.be.equal(car)
+    })
+  })
+}) 
