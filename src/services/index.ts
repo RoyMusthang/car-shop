@@ -15,6 +15,21 @@ abstract class Service<T> {
   public async read(): Promise<T[]> {
     return this.model.read();
   }
+
+  public async readOne(id: string): Promise<T | null> {
+    const result = await this.model.readOne(id);
+    return result;
+  }
+
+  public async update(id: string, obj: T): Promise<T | null> {
+    const result = await this.model.update(id, obj);
+    return result;
+  }
+
+  public async delete(id: string): Promise<T | null> {
+    const result = await this.model.delete(id);
+    return result;
+  }
 }
 
 export default Service;
